@@ -20,10 +20,11 @@ void Shop::AddBag()
 	BagList[Quantity++]->ReadInfo();
 }
 
-Bag* Shop::GetBag(int idx) const
+/*Bag* Shop::GetBag(int idx) const
 {
 	if (idx > Quantity)
 }
+*/
 
 Shop::~Shop(void)
 {
