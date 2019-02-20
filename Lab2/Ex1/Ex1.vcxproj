@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8CBF5BC6-A6FE-4998-8722-3A679B14C15B}</ProjectGuid>
+    <ProjectGuid>{70CAB025-746E-445D-940A-4358D0005356}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Part2Ex2</RootNamespace>
+    <RootNamespace>Ex1</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,17 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="faculty.cpp" />
-    <ClCompile Include="graduated.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="student.cpp" />
-    <ClCompile Include="ungratuated.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="faculty.h" />
-    <ClInclude Include="graduated.h" />
-    <ClInclude Include="student.h" />
-    <ClInclude Include="ungratuated.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
