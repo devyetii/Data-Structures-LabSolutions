@@ -220,3 +220,20 @@ void LinkedList::DeleteAll()
 	}
 	count = 0;
 }
+
+void LinkedList::PrintKth(int k) const
+{
+	Node * ptr = Head;
+	int cnt = 1;
+	while (ptr) // ptr != NULL
+	{
+		if (cnt == k)
+		{
+			cout << ptr->getItem() << endl;
+			return;
+		}
+		ptr = ptr->getNext();
+		cnt++;
+	}
+	cout << "Beyond List Length\n";
+}
