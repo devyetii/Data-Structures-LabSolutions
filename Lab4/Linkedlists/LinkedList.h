@@ -73,6 +73,8 @@ public:
 	void PrintKth(int k) const;
 
 	void DeleteKey(int Key);
+
+	Node* GetMin();
 	
 };
 

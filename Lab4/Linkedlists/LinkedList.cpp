@@ -278,3 +278,42 @@ void LinkedList::DeleteKey(int Key)
 	}
 
 }
+Node* LinkedList::GetMin()
+{
+	if (!Head)
+	{
+		return Head;
+	}
+	Node* MinElement = Head;
+	Node* ptr = Head->getNext();
+	while (ptr)
+	{
+		if (ptr->getItem() < MinElement->getItem())
+		{
+			MinElement = ptr;
+		}
+		ptr = ptr->getNext();
+	}
+	if (Head->getItem() == MinElement->getItem())
+	{
+		Head = Head->getNext();
+		MinElement->setNext(NULL);
+		count--;
+	}
+	else
+	{
+		ptr = Head;
+		while (ptr && ptr->getNext())
+		{
+			Node* nxt = ptr->getNext();
+			if (nxt->getItem() == MinElement->getItem())
+			{
+				ptr->setNext(nxt->getNext());
+				nxt->setNext(NULL);
+				count--;
+				break;
+			}
+		}
+	}
+	return MinElement;
+}
