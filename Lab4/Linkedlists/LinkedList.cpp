@@ -237,3 +237,14 @@ void LinkedList::PrintKth(int k) const
 	}
 	cout << "Beyond List Length\n";
 }
+void LinkedList::DeleteFirst()
+{
+	if (!Head)
+	{
+		return;
+	}
+	Node* temp = Head;
+	Head = Head->getNext();
+	delete temp;
+	count--;
+}
