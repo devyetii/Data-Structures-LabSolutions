@@ -71,6 +71,8 @@ public:
 	void Reverse();
 
 	void PrintKth(int k) const;
+
+	void DeleteKey(int Key);
 	
 };
 

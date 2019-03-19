@@ -248,3 +248,33 @@ void LinkedList::DeleteFirst()
 	delete temp;
 	count--;
 }
+void LinkedList::DeleteKey(int Key)
+{
+	if (!Head)
+	{
+		return;
+	}
+	while (Head && Head->getItem() == Key)
+	{
+		Node* temp = Head;
+		Head = Head->getNext();
+		delete temp;
+		count--;
+	}
+	Node* prev = Head;
+	while (prev && prev->getNext())
+	{
+		Node* nxt = prev->getNext();
+		if (nxt->getItem() == Key)
+		{
+			prev->setNext(nxt->getNext());
+			delete nxt;
+			count--;
+		}
+		else
+		{
+			prev = prev->getNext();
+		}
+	}
+
+}

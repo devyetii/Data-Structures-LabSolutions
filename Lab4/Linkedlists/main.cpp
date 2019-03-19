@@ -30,6 +30,7 @@ int main()
 	L.DeleteLarger(n);
 	L.PrintList();
 	cout<<endl;
+
 	system("pause");
 	return 0;
 }
