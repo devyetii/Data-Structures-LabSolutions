@@ -26,11 +26,19 @@ int main()
 	L.InsertBefore(10, 50);
 	L.PrintList();
 	int n;
-	cin >> n;
+	/*cin >> n;
 	L.DeleteLarger(n);
 	L.PrintList();
-	cout<<endl;
-
+	cout<<endl;*/
+	/*LinkedList pos,neg;
+	L.SignSplit(pos,neg);
+	pos.PrintList();
+	neg.PrintList();
+	L.PrintList();*/
+	L.Reorder_X(3);
+	L.PrintList();
+	L.RemoveDuplicates();
+	L.PrintList();
 	system("pause");
 	return 0;
 }

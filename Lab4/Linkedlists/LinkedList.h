@@ -75,7 +75,14 @@ public:
 	void DeleteKey(int Key);
 
 	Node* GetMin();
+
+	void SignSplit(LinkedList& lpos, LinkedList& lneg);
+
+	void MergeSorted(LinkedList &L);
 	
+	void Reorder_X(int x);
+
+	void RemoveDuplicates();
 };
 
 #endif	

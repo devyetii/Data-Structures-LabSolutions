@@ -20,7 +20,7 @@ void Node::setItem( int newItem)
 
 void Node::setNext(Node* nextNodePtr)
 {
-next = nextNodePtr;
+	next = nextNodePtr;
 } // end setNext
 
 int Node::getItem() const
