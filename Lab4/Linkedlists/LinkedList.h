@@ -70,6 +70,12 @@ public:
 	//[9] Reverse
 	//Reverses the linked list (without allocating any new Nodes)
 	void Reverse();
+
+	void PrintKth(int k) const;
+
+	void DeleteKey(int Key);
+
+	Node* GetMin();
 	
 };
 
