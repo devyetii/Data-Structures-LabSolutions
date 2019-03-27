@@ -75,8 +75,15 @@ public:
 
 	void DeleteKey(int Key);
 
-	Node* GetMin();
+	Node<T>* GetMin();
+
+	void SignSplit(LinkedList<T>& lpos, LinkedList<T>& lneg);
+
+	void MergeSorted(LinkedList<T> &L);
 	
+	void Reorder_X(int x);
+
+	void RemoveDuplicates();
 };
 
 #endif	
@@ -180,7 +187,7 @@ int LinkedList<T>::CountOccurance(T value) const {
 	}
 	return cnt;
 }
-
+/*
 template<typename T>
 void LinkedList<T>::DeleteFirst() {
 	Node<T>* del_p = Head;
@@ -189,7 +196,7 @@ void LinkedList<T>::DeleteFirst() {
 	delete del_p;
 	count--;
 }
-
+*/
 template<typename T>
 void LinkedList<T>::DeleteLast() {
 	Node<T> *del_p = Head, *prev = nullptr;
@@ -350,7 +357,7 @@ bool LinkedList<T>::InsertBefore(T old_val, T new_val)
 {
 	if (Find(old_val) == false) return false;
 	Node<T>* ptr = Head, *prev = nullptr;
-	Node<T>* newNode = new Node(new_val);
+	Node<T>* newNode = new Node<T>(new_val);
 	while (ptr != nullptr)
 	{
 		if (ptr->getItem() == old_val) {
@@ -386,4 +393,301 @@ void LinkedList<T>::DeleteAll()
 		Head = P;
 	}
 	count = 0;
+}
+template<typename T>
+void LinkedList<T>::PrintKth(int k) const
+{
+	Node<T> * ptr = Head;
+	int cnt = 1;
+	while (ptr) // ptr != NULL
+	{
+		if (cnt == k)
+		{
+			cout << ptr->getItem() << endl;
+			return;
+		}
+		ptr = ptr->getNext();
+		cnt++;
+	}
+	cout << "Beyond List Length\n";
+}
+
+template<typename T>
+void LinkedList<T>::DeleteFirst()
+{
+	if (!Head)
+	{
+		return;
+	}
+	Node<T>* temp = Head;
+	Head = Head->getNext();
+	delete temp;
+	count--;
+}
+
+template<typename T>
+void LinkedList<T>::DeleteKey(int Key)
+{
+	if (!Head)
+	{
+		return;
+	}
+	while (Head && Head->getItem() == Key)
+	{
+		Node<T>* temp = Head;
+		Head = Head->getNext();
+		delete temp;
+		count--;
+	}
+	Node<T>* prev = Head;
+	while (prev && prev->getNext())
+	{
+		Node<T>* nxt = prev->getNext();
+		if (nxt->getItem() == Key)
+		{
+			prev->setNext(nxt->getNext());
+			delete nxt;
+			count--;
+		}
+		else
+		{
+			prev = prev->getNext();
+		}
+	}
+
+}
+
+template<typename T>
+Node<T>* LinkedList<T>::GetMin()
+{
+	if (!Head)
+	{
+		return Head;
+	}
+	Node<T>* MinElement = Head;
+	Node<T>* ptr = Head->getNext();
+	while (ptr)
+	{
+		if (ptr->getItem() < MinElement->getItem())
+		{
+			MinElement = ptr;
+		}
+		ptr = ptr->getNext();
+	}
+	if (Head->getItem() == MinElement->getItem())
+	{
+		Head = Head->getNext();
+		MinElement->setNext(NULL);
+		count--;
+	}
+	else
+	{
+		ptr = Head;
+		while (ptr && ptr->getNext())
+		{
+			Node<T>* nxt = ptr->getNext();
+			if (nxt->getItem() == MinElement->getItem())
+			{
+				ptr->setNext(nxt->getNext());
+				nxt->setNext(NULL);
+				count--;
+				break;
+			}
+		}
+	}
+	return MinElement;
+}
+
+template<typename T>
+void LinkedList<T>::SignSplit(LinkedList<T>& lpos, LinkedList<T>& lneg)
+{
+	if (!Head)
+	{
+		return;
+	}
+	Node<T>* ptr_pos = lpos.Head;
+	Node<T>* ptr_neg = lneg.Head;
+	while (Head && Head->getItem() != 0)
+	{
+		if (Head->getItem() > 0)
+		{
+			if (!ptr_pos)
+			{
+				lpos.Head = Head;
+				ptr_pos = lpos.Head;
+			}
+			else
+			{
+				ptr_pos->setNext(Head);
+				ptr_pos = ptr_pos->getNext();
+			}
+			lpos.count++;
+			count--;
+		}
+		else if (Head->getItem() < 0)
+		{
+			if (!ptr_neg)
+			{
+				lneg.Head = Head;
+				ptr_neg = lneg.Head;
+			}
+			else
+			{
+				ptr_neg->setNext(Head);
+				ptr_neg = ptr_neg->getNext();
+			}
+			lneg.count++;
+			count--;
+		}
+		Head = Head->getNext();
+	}
+	Node<T>* ptr = Head;
+	while (ptr && ptr->getNext())
+	{
+		Node<T>* nxt = ptr->getNext();
+		if (ptr_neg && nxt->getItem() < 0)
+		{
+			ptr_neg->setNext(nxt);
+			ptr_neg = nxt;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lneg.count++;
+		}
+		else if (!ptr_neg && nxt->getItem() < 0)
+		{
+			lneg.Head = nxt;
+			ptr_neg = lneg.Head;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lneg.count++;
+		}
+		else if (ptr_pos && nxt->getItem() > 0)
+		{
+			ptr_pos = nxt;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lpos.count++;
+		}
+		else if (!ptr_pos && nxt->getItem() > 0)
+		{
+			lpos.Head = nxt;
+			ptr_pos = lpos.Head;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lpos.count++;
+		}
+		else
+		{
+			ptr = ptr->getNext();
+		}
+	}
+	ptr_neg->setNext(nullptr);
+	ptr_pos->setNext(nullptr);
+}
+
+template<typename T>
+void LinkedList<T>::MergeSorted(LinkedList<T> &L)
+{
+	if (!L.Head)
+	{
+		return;
+	}
+	if (!Head)
+	{
+		Head = L.Head;
+		L.Head = NULL;
+		count += L.count;
+		L.count = 0;
+		return;
+	}
+	if (Head->getItem() > L.Head->getItem())
+	{
+		Node<T>* temp = Head;
+		Head = L.Head;
+		L.Head = temp;
+	}
+	Node<T>* ptr1 = Head;
+	Node<T>* ptr2 = L.Head;
+	while (ptr1 && ptr1->getNext() && ptr2)
+	{
+		if (ptr1->getNext()->getItem() <= ptr2->getItem())
+		{
+			ptr1 = ptr1->getNext();
+		}
+		else
+		{
+			Node<T>* temp = ptr1->getNext();
+			ptr1->setNext(ptr2);
+			ptr2 = ptr2->getNext();
+			ptr1->getNext()->setNext(temp);
+			ptr1 = ptr1->getNext();
+		}
+	}
+	if (ptr2)
+	{
+		ptr1->setNext(ptr2);
+	}
+	count += L.count;
+	L.count = 0;
+	L.Head = NULL;
+}
+
+template<typename T>
+void LinkedList<T>::Reorder_X(int x)
+{
+	Node<T>* ptr = Head;
+	if (!ptr || !(ptr->getNext()))
+	{
+		return;
+	}
+
+	while (ptr && ptr->getNext()) 
+	{
+		Node<T>* nxt = ptr->getNext();
+		if (nxt->getItem() <= x)
+		{
+			ptr->setNext(nxt->getNext());
+			nxt->setNext(Head);
+			Head = nxt;
+		}
+		else
+			ptr = ptr->getNext();
+	}
+
+}
+
+template<typename T>
+void LinkedList<T>::RemoveDuplicates()
+{
+	if (!Head)
+	{
+		return;
+	}
+	Node<T>* ptr = Head;
+	LinkedList<T> NonDuplictedElements;
+	NonDuplictedElements.Head = new Node<T>(Head->getItem());
+	while (ptr && ptr->getNext())
+	{
+		Node<T>* nxt = ptr->getNext();
+		Node<T>* ptr2 = NonDuplictedElements.Head;
+		bool found = 0;
+		while (ptr2 && !found)
+		{
+			if (ptr2->getItem() == nxt->getItem())
+			{
+				found = 1;
+			}
+			ptr2 = ptr2->getNext();
+		}
+		if (found)
+		{
+			_deleteNodeAfter(ptr);
+		}
+		else
+		{
+			NonDuplictedElements.InsertBeg(nxt->getItem());
+			ptr = ptr->getNext();
+		}
+	}
+	NonDuplictedElements.DeleteAll();
 }

@@ -277,6 +277,238 @@
 // 		}
 // 	}
 
+<<<<<<< HEAD
+}
+Node* LinkedList::GetMin()
+{
+	if (!Head)
+	{
+		return Head;
+	}
+	Node* MinElement = Head;
+	Node* ptr = Head->getNext();
+	while (ptr)
+	{
+		if (ptr->getItem() < MinElement->getItem())
+		{
+			MinElement = ptr;
+		}
+		ptr = ptr->getNext();
+	}
+	if (Head->getItem() == MinElement->getItem())
+	{
+		Head = Head->getNext();
+		MinElement->setNext(NULL);
+		count--;
+	}
+	else
+	{
+		ptr = Head;
+		while (ptr && ptr->getNext())
+		{
+			Node* nxt = ptr->getNext();
+			if (nxt->getItem() == MinElement->getItem())
+			{
+				ptr->setNext(nxt->getNext());
+				nxt->setNext(NULL);
+				count--;
+				break;
+			}
+		}
+	}
+	return MinElement;
+}
+
+void LinkedList::SignSplit(LinkedList& lpos, LinkedList& lneg)
+{
+	if (!Head)
+	{
+		return;
+	}
+	Node* ptr_pos = lpos.Head;
+	Node* ptr_neg = lneg.Head;
+	while (Head && Head->getItem() != 0)
+	{
+		if (Head->getItem() > 0)
+		{
+			if (!ptr_pos)
+			{
+				lpos.Head = Head;
+				ptr_pos = lpos.Head;
+			}
+			else
+			{
+				ptr_pos->setNext(Head);
+				ptr_pos = ptr_pos->getNext();
+			}
+			lpos.count++;
+			count--;
+		}
+		else if (Head->getItem() < 0)
+		{
+			if (!ptr_neg)
+			{
+				lneg.Head = Head;
+				ptr_neg = lneg.Head;
+			}
+			else
+			{
+				ptr_neg->setNext(Head);
+				ptr_neg = ptr_neg->getNext();
+			}
+			lneg.count++;
+			count--;
+		}
+		Head = Head->getNext();
+	}
+	Node* ptr = Head;
+	while (ptr && ptr->getNext())
+	{
+		Node* nxt = ptr->getNext();
+		if (ptr_neg && nxt->getItem() < 0)
+		{
+			ptr_neg->setNext(nxt);
+			ptr_neg = nxt;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lneg.count++;
+		}
+		else if (!ptr_neg && nxt->getItem() < 0)
+		{
+			lneg.Head = nxt;
+			ptr_neg = lneg.Head;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lneg.count++;
+		}
+		else if (ptr_pos && nxt->getItem() > 0)
+		{
+			ptr_pos = nxt;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lpos.count++;
+		}
+		else if (!ptr_pos && nxt->getItem() > 0)
+		{
+			lpos.Head = nxt;
+			ptr_pos = lpos.Head;
+			ptr->setNext(nxt->getNext());
+			count--;
+			lpos.count++;
+		}
+		else
+		{
+			ptr = ptr->getNext();
+		}
+	}
+	ptr_neg->setNext(nullptr);
+	ptr_pos->setNext(nullptr);
+}
+
+void LinkedList::MergeSorted(LinkedList &L)
+{
+	if (!L.Head)
+	{
+		return;
+	}
+	if (!Head)
+	{
+		Head = L.Head;
+		L.Head = NULL;
+		count += L.count;
+		L.count = 0;
+		return;
+	}
+	if (Head->getItem() > L.Head->getItem())
+	{
+		Node* temp = Head;
+		Head = L.Head;
+		L.Head = temp;
+	}
+	Node* ptr1 = Head;
+	Node* ptr2 = L.Head;
+	while (ptr1 && ptr1->getNext() && ptr2)
+	{
+		if (ptr1->getNext()->getItem() <= ptr2->getItem())
+		{
+			ptr1 = ptr1->getNext();
+		}
+		else
+		{
+			Node* temp = ptr1->getNext();
+			ptr1->setNext(ptr2);
+			ptr2 = ptr2->getNext();
+			ptr1->getNext()->setNext(temp);
+			ptr1 = ptr1->getNext();
+		}
+	}
+	if (ptr2)
+	{
+		ptr1->setNext(ptr2);
+	}
+	count += L.count;
+	L.count = 0;
+	L.Head = NULL;
+}
+
+void LinkedList::Reorder_X(int x)
+{
+	Node* ptr = Head;
+	if (!ptr || !(ptr->getNext()))
+	{
+		return;
+	}
+
+	while (ptr && ptr->getNext()) 
+	{
+		Node* nxt = ptr->getNext();
+		if (nxt->getItem() <= x)
+		{
+			ptr->setNext(nxt->getNext());
+			nxt->setNext(Head);
+			Head = nxt;
+		}
+		else
+			ptr = ptr->getNext();
+	}
+
+}
+
+void LinkedList::RemoveDuplicates()
+{
+	if (!Head)
+	{
+		return;
+	}
+	Node* ptr = Head;
+	LinkedList NonDuplictedElements;
+	NonDuplictedElements.Head = new Node(Head->getItem());
+	while (ptr && ptr->getNext())
+	{
+		Node* nxt = ptr->getNext();
+		Node* ptr2 = NonDuplictedElements.Head;
+		bool found = 0;
+		while (ptr2 && !found)
+		{
+			if (ptr2->getItem() == nxt->getItem())
+			{
+				found = 1;
+			}
+			ptr2 = ptr2->getNext();
+		}
+		if (found)
+		{
+			_deleteNodeAfter(ptr);
+		}
+		else
+		{
+			NonDuplictedElements.InsertBeg(nxt->getItem());
+			ptr = ptr->getNext();
+		}
+	}
+	NonDuplictedElements.DeleteAll();
+}
+=======
 // }
 // Node* LinkedList::GetMin()
 // {
@@ -317,3 +549,4 @@
 // 	}
 // 	return MinElement;
 // }
+>>>>>>> 088060561b3938870e13ebdf3cece65e19034a62

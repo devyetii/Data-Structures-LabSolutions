@@ -26,7 +26,22 @@ int main()
 	cout<<" \n ..............  Lab Requirements .............\n";
 	cout<<"\n Check File LinkedList.h and write the required member functions";
 	cout<<"\n Then test these functions by calling them from the main()";
-	
+	L_int.InsertBefore(10, 50);
+	L_int.PrintList();
+	int n;
+	/*cin >> n;
+	L.DeleteLarger(n);
+	L.PrintList();
+	cout<<endl;*/
+	/*LinkedList pos,neg;
+	L.SignSplit(pos,neg);
+	pos.PrintList();
+	neg.PrintList();
+	L.PrintList();*/
+	L_int.Reorder_X(3);
+	L_int.PrintList();
+	L_int.RemoveDuplicates();
+	L_int.PrintList();
 	L_int.Reverse();
 	L_int.PrintList();
 
